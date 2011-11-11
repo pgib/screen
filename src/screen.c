@@ -2293,7 +2293,7 @@ struct backtick *bt;
     {
       if (c == '\t')
 	c = ' ';
-      if (c >= ' ' || c == '\005')
+      if (c >= ' ' || c == '\005' || c == '\033')
 	*q++ = c;
     }
   *q = 0;
@@ -2557,6 +2557,7 @@ int rec;
 		  break;
 		}
 	    }
+
 	  continue;
 	}
       if (*++s == esc)	/* double escape ? */
@@ -2861,6 +2862,33 @@ int rec;
 	  trunclong = longflg;
 	  p--;
 	  break;
+	case 'G':
+	  {
+	  *p = 0;
+	  char colstr[128];
+	  if (num && num < 256)
+	    sprintf(colstr, "\033[38;5;%dm", num);
+	  else
+	    strcpy(colstr, "\033[0m");
+
+	  strcpy(p, colstr);
+	  p += strlen(p) - 1;
+	  padlen += strlen(colstr);
+	  break;
+	  }
+	case 'B':
+	  *p = 0;
+	  char colstr[128];
+	  if (num && num < 256)
+		sprintf(colstr, "\033[48;5;%dm", num);
+	  else
+		strcpy(colstr, "\033[0m");
+
+	  strcpy(p, colstr);
+	  p += strlen(p) - 1;
+	  padlen += strlen(colstr);
+	  break;
+
 	case '=':
 	case '<':
 	  *p = ' ';
