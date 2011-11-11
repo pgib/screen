@@ -830,7 +830,7 @@ AC_CHECKING(getutent)
 AC_TRY_LINK([
 #include <time.h> /* to get time_t on SCO */
 #include <sys/types.h>
-#if defined(SVR4) && !defined(DGUX)
+#if defined(SVR4) || defined(__APPLE__)) && !defined(DGUX)
 #include <utmpx.h>
 #define utmp utmpx
 #else
@@ -847,7 +847,7 @@ AC_CHECKING(getutent with -lgen)
 AC_TRY_LINK([
 #include <time.h>
 #include <sys/types.h>
-#if defined(SVR4) && !defined(DGUX)
+#if defined(SVR4) || defined(__APPLE__)) && !defined(DGUX)
 #include <utmpx.h>
 #define utmp utmpx
 #else
@@ -863,7 +863,7 @@ AC_CHECKING(ut_host)
 AC_TRY_COMPILE([
 #include <time.h>
 #include <sys/types.h>
-#if defined(SVR4) && !defined(DGUX)
+#if defined(SVR4) || defined(__APPLE__)) && !defined(DGUX)
 #include <utmpx.h>
 #define utmp utmpx
 #else
